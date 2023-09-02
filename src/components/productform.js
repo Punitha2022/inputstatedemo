@@ -5,6 +5,7 @@ import ProductService from "../services/productservice";
 
 function AddProduct(){
     let navigate=useNavigate();
+    let userData=localStorage.getItem("token")
     const {id}=useParams();
     const initialValues={id:'',name:'',quantity:0,price:0}
     const [formValues,setFormValues]=useState(initialValues)
@@ -27,7 +28,7 @@ function AddProduct(){
     console.log('data.id'+data.id)
     if(data.id==0){
         console.log(data)
-   ProductService.create(data)
+   ProductService.create(data,userData)
    .then(response =>{
     console.log(response.status)
     alert('product added successfully')
@@ -39,7 +40,7 @@ function AddProduct(){
    })
    }
    else{
-    ProductService.update(data).then(response=>{
+    ProductService.update(data,userData).then(response=>{
         console.log(response.data)
         alert('Product details updated successfully...')
         navigate("/products")
@@ -65,7 +66,7 @@ function AddProduct(){
     useEffect(()=>{
         console.log('product id is ' +id);
         if(id){
-        ProductService.getById(id)
+        ProductService.getById(id,userData)
         .then(response=>{
             console.log(response.data)
             setFormValues(response.data)

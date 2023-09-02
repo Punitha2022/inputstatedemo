@@ -22,17 +22,35 @@ function LoginForm({setUsername,setAuthorities}){
       login(formValues)
     }
 }
+function parseJwt(token) {//to extract the payload from JWT
+    if (!token) { return }
+    const base64Url = token.split('.')[1]
+    console.log(base64Url)
+    const base64 = base64Url.replace('-', '+').replace('_', '/')
+    console.log(base64)
+    console.log(JSON.parse(window.atob(base64)))
+    return JSON.parse(window.atob(base64))
+  }
 const login=(data)=>{
+    // Basic Authentication
     localStorage.setItem("email",data.email)
     localStorage.setItem("password",data.password)
     CustomerService.login(data)
     .then((response)=>{
-        localStorage.setItem("username",response.data.username)
+        alert(response.data)
+        console.log(response.data)
+        let token=response.data//JWT token
+        console.log(parseJwt(token))
+        let userData=parseJwt(token)//sub,iss,iat,exp,role
+        localStorage.setItem('token',JSON.stringify(token))
+        localStorage.setItem("username",userData.sub)
         localStorage.setItem("authorities",
-                    response.data.authorities[0].authority)
-        setUsername(response.data.username)
-        setAuthorities(response.data.authorities[0].authority)
+        userData.role[0].authority)
+        //to update the state variables defined in App.js
+        setUsername(userData.sub)
+        setAuthorities(userData.role[0].authority)
         navigate("/products")
+       // navigate("/userinfo")
     })
     .catch(e=>{
         console.log(e)

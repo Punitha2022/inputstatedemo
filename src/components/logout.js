@@ -1,6 +1,5 @@
-import { useEffect,useState } from "react"
-import { Link, useNavigate } from "react-router-dom"
-import { Navigate } from "react-router-dom"
+import { useEffect } from "react"
+import { Link} from "react-router-dom"
 import ProductService from "../services/productservice"
 function Logout({setUsername,setAuthorities}){
     useEffect(()=>{
@@ -14,13 +13,10 @@ function Logout({setUsername,setAuthorities}){
         setUsername('')
         setAuthorities('')
     })
-    
-     
-
     return(
         <>
         You have successfully logged out!
-        <Link to="/login">Back to login</Link>
+        <Link to="/loginform">Back to login</Link>
         </>
     )
 }

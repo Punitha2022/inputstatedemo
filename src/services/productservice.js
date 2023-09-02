@@ -5,34 +5,39 @@ import http from '../http-common'
     email=localStorage.getItem("email")
     password=localStorage.getItem("password")
  }
-const create=(data)=>{
+const create=(data,userData)=>{
     getEmailPassword();
-        return http.post("/product/addproduct",data,{auth:{username:email,password:password}});
+        return http.post("/product/addproduct",data,
+        {headers:{'Authorization':'Bearer '+JSON.parse(userData)}})
+       // {auth:{username:email,password:password}});
 }
-const getAllProducts=()=>{
-    alert('inside getallproducts')
-getEmailPassword();
-    return http.get("/product/allproducts")
+const getAllProducts=(jwtToken)=>{
+    return http.get("/product/allproducts", 
+    {headers:{'Authorization':'Bearer '
+            +JSON.parse(jwtToken)}})
 }
-const getById=(id)=>{
+const getById=(id,userData)=>{
     getEmailPassword();
-    alert(email)
-    alert(password)
-    return http.get("/product/"+id,{auth:{username:email,password:password}})
+    return http.get("/product/"+id,
+    {headers:{'Authorization':'Bearer '+JSON.parse(userData)}})
+    //{auth:{username:email,password:password}})
 }
-const update=(data)=>{
+const update=(data,userData)=>{
     getEmailPassword();
-    return http.put("/product/update",data,{auth:{username:email,password:password}})
+    return http.put("/product/update",data,
+    {headers:{'Authorization':'Bearer '+JSON.parse(userData)}})
+   // {auth:{username:email,password:password}})
 }
-const deleteProduct=(id)=>{
+const deleteProduct=(id,userData)=>{
     getEmailPassword();
-    return http.delete("/product/"+id,{auth:{username:email,password:password}})
+    return http.delete("/product/"+id,
+    {headers:{'Authorization':'Bearer '+JSON.parse(userData)}})
+    //{auth:{username:email,password:password}})
 }
 const logout=()=>{
     getEmailPassword();
-    // let email=localStorage.getItem("email")
-    // let password=localStorage.getItem("password")
-    return http.get("/logoutsuccess",{auth:{username:email,password:password}})
+    return http.get("/logoutsuccess",
+    {auth:{username:email,password:password}})
 }
  const ProductService={
     create,

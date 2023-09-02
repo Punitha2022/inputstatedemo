@@ -6,8 +6,12 @@ const login=(data)=>{
 const register= (data)=>{
     return http.post("/public/register",data)
 }
+const userInfo=(userData)=>{
+    return http.get("/auth/userinfo",{headers:{'Authorization':'Bearer '+JSON.parse(userData)}})
+}
 const CustomerService = {
     login,
-    register
+    register,
+    userInfo
 }
 export default CustomerService;

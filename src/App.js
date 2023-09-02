@@ -13,6 +13,7 @@ import Counter from "./components/useReducerDemo";
 import BankAccount from "./components/bankaccount";
 import Registration from "./components/registrationdemo";
 import Logout from "./components/logout";
+import UserInfo from "./components/userinfo";
 
 function App() {
   let [username,setUsername]=useState('')
@@ -48,29 +49,35 @@ function App() {
           </div>
            :''
           }
-          {authorities==='User'?<div className="nav-link">Offers</div>:''}
+          {authorities==='User'?
+          <div className="nav-link">Offers</div>:''}
           {username? <div className="nav-link">
             Welcome {username}
           </div>:''}
-          
+          {!username?'':<div className="nav-link">
+            <Link to="/userinfo">Userinfo</Link></div>}
         </nav>
         {/* <UseEffectDemo/> */}
         <Routes>
           <Route path="/products"
             element={
-              
                 <ProductList  />
-             
             }
           />
-          <Route path="/loginform" element={<LoginForm setUsername={setUsername} setAuthorities={setAuthorities}/>}></Route>
+          <Route path="/loginform" 
+                element={<LoginForm setUsername={setUsername} 
+                setAuthorities={setAuthorities}/>}>
+          </Route>
           <Route path="/register" element={<Registration/>}></Route>
-         
           <Route path="/productform" element={<AddProduct/>}></Route>
-         
           <Route path="/edit/:id" element={<AddProduct/>}></Route>
           <Route path="/viewproduct/:id" element={<ViewProduct/>}></Route>
-          <Route path="/logout" element={<Logout setUsername={setUsername} setAuthorities={setAuthorities}/>}></Route>
+          <Route path="/userinfo" element={<UserInfo/>}></Route>
+          <Route path="/logout" 
+          element={<Logout 
+            setUsername={setUsername} 
+            setAuthorities={setAuthorities}/>}>
+        </Route>
         </Routes>
        {/* <BankAccount/> */}
       </BrowserRouter>
